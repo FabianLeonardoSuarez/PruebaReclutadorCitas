@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaReclutadorCitas", "PruebaReclutadorCitas\PruebaReclutadorCitas.csproj", "{07204A36-E4DC-4CB8-9FBE-0E123A32F16A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07204A36-E4DC-4CB8-9FBE-0E123A32F16A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07204A36-E4DC-4CB8-9FBE-0E123A32F16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07204A36-E4DC-4CB8-9FBE-0E123A32F16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07204A36-E4DC-4CB8-9FBE-0E123A32F16A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99F5EEC6-E498-4824-9512-7D3E85B50075}
+	EndGlobalSection
+EndGlobal
