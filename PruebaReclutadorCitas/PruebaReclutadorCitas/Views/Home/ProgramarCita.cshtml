@@ -44,10 +44,10 @@
             var contador = 0;
             for (var i = 0, length = listachk.length; i < length; i++) {
                 if (listachk[i].checked) {
-                    data += '{ "IdTipoCita": ' 
-                        + ', "IdUser": ' 
-                        + ', "Fecha": ' 
-                        + ', "Hora": ' + + '}'
+                    data += '{ "IdTipoCita": ' + $('t' + listachk[i].id.replace('u','')).val()
+                        + ', "IdUser": ' + listachk[i].id.replace('u','')
+                        + ', "Fecha": ' + $('f' + listachk[i].id.replace('u','')).val()
+                        + ', "Hora": ' + $('h' + listachk[i].id.replace('u','')).val() + '}'
                     if (i != listachk.length)
                         data += ',';
                 }
@@ -58,7 +58,7 @@
                     url: "http://localhost:62721/Home/GuardarCitas",
                     content: "application/json; charset=utf-8",
                     dataType: "json",
-                    data: data,
+                    data: JSON.stringify(data),
                     success: function (response) {
 
                         var objUsuarios = JSON.parse(response);
