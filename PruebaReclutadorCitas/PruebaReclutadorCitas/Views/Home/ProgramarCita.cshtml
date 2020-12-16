@@ -44,12 +44,14 @@
             var contador = 0;
             for (var i = 0, length = listachk.length; i < length; i++) {
                 if (listachk[i].checked) {
-                    data += '{ "IdTipoCita": ' + $('t' + listachk[i].id.replace('u','')).val()
-                        + ', "IdUser": ' + listachk[i].id.replace('u','')
-                        + ', "Fecha": ' + $('f' + listachk[i].id.replace('u','')).val()
-                        + ', "Hora": ' + $('h' + listachk[i].id.replace('u','')).val() + '}'
-                    if (i != listachk.length)
+                    if (data != '[' && i != listachk.length)
                         data += ',';
+
+                    data += '{ "IdTipoCita": ' + document.getElementById('t' + listachk[i].id.replace('u','')).value
+                        + ', "IdUser": ' + listachk[i].id.replace('u','')
+                        + ', "Fecha": "' + document.getElementById('f' + listachk[i].id.replace('u','')).value
+                        + '", "Hora": "' + document.getElementById('h' + listachk[i].id.replace('u','')).value + '"}'
+
                 }
             }
 
@@ -60,10 +62,10 @@
                     dataType: "json",
                     data: JSON.stringify(data),
                     success: function (response) {
-
-                        var objUsuarios = JSON.parse(response);
-                       
-                        alert("Citas Agendadas");
+                        if(response.Error == 'false')
+                            alert("Citas Agendadas");
+                        else
+                            alert(response.Error);
                     },
                     error: function (xhr, textStatus, errorThrown) {
                         alert(d.Error);

@@ -64,13 +64,21 @@ namespace PruebaReclutadorCitas.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarCitas(List<Cita> ListaCitas)
+        public JsonResult GuardarCitas(List<ObjCita> ListaCitas)
         {
             try
             {
                 foreach (var Cita in ListaCitas)
                 {
-                    db.Citas.Add(Cita);
+                    Cita objGCita = new Cita();
+                    objGCita.IdTipoCita = Cita.IdTipoCita;
+                    objGCita.IdUsuarioCreacion = Cita.IdUser;
+                    objGCita.Fecha = DateTime.Parse(Cita.Fecha);
+                    objGCita.Hora = DateTime.Parse(Cita.Hora);
+                    objGCita.IdReclutador = 1;
+                    objGCita.IdUsuarioCreacion = 1;
+                    objGCita.FechaCreacion = DateTime.Now;
+                    db.Citas.Add(objGCita);
                     db.SaveChanges();
                 }
 
@@ -120,19 +128,24 @@ namespace PruebaReclutadorCitas.Controllers
         public int EsPar { get; set; }
     }
 
-    public class CheckModel
+    public class ObjCita
     {
-        public int Id
+        public int IdTipoCita
         {
             get;
             set;
         }
-        public string Name
+        public int IdUser
         {
             get;
             set;
         }
-        public bool Checked
+        public string Fecha
+        {
+            get;
+            set;
+        }
+        public string Hora
         {
             get;
             set;
