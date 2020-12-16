@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6f136c9e565341fdab1766e690361e18" Name="Diagram1">
+        <EntityTypeShape EntityType="ReclutadorCitasModel.Cita" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReclutadorCitasModel.Herramienta" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReclutadorCitasModel.sysdiagram" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReclutadorCitasModel.Tecnologia" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReclutadorCitasModel.TipoCita" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReclutadorCitasModel.Usuario" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="ReclutadorCitasModel.FK_Cita_TipoCita" ManuallyRouted="false" />
+        <AssociationConnector Association="ReclutadorCitasModel.FK_Cita_Usuarios" ManuallyRouted="false" />
+        <AssociationConnector Association="ReclutadorCitasModel.FK_Cita_Usuarios1" ManuallyRouted="false" />
+        <AssociationConnector Association="ReclutadorCitasModel.FK_Tecnologias_Herramientas" ManuallyRouted="false" />
+        <AssociationConnector Association="ReclutadorCitasModel.FK_Usuarios_Usuarios" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

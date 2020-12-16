@@ -1,0 +1,258 @@
+﻿@*@model string*@
+@{
+    Layout = null;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+@*@using (Html.BeginForm())
+    {*@
+@*@Html.AntiForgeryToken()*@
+
+
+@*foreach (var item in Model)
+    {
+        @Html.RadioButton(item.NombreHerramienta.ToString(), item.IdHerramienta)
+    }*@
+
+@*for (var i = 0; i < Model.Count(); i++)
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.CheckBoxFor(it => false, new { Style = "vertical-align:3px}" })
+                </td>
+                <td>
+                    @Html.HiddenFor(it => it.IdTecnologia)
+                    @Html.DisplayFor(it => it.NombreTecnologia)
+                </td>
+            </tr>
+        </table>
+
+    }*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(AreaNet).hide();
+        $(AreaJava).hide();
+        $(divAreaCandidatos).hide();
+
+
+        $('#botonGuardar').click(function (e) {
+
+            var data = "[";
+
+            var listachk = document.getElementsByName('chkCandidatos');
+            var contador = 0;
+            for (var i = 0, length = listachk.length; i < length; i++) {
+                if (listachk[i].checked) {
+                    data += '{ "IdTipoCita": ' 
+                        + ', "IdUser": ' 
+                        + ', "Fecha": ' 
+                        + ', "Hora": ' + + '}'
+                    if (i != listachk.length)
+                        data += ',';
+                }
+            }
+
+            $.ajax({
+                    type: "POST",
+                    url: "http://localhost:62721/Home/GuardarCitas",
+                    content: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: data,
+                    success: function (response) {
+
+                        var objUsuarios = JSON.parse(response);
+                       
+                        alert("Citas Agendadas");
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(d.Error);
+                    }
+                });
+        });
+
+
+        $('#botonConsulta').click(function (e) {
+            var Par = 0;
+            var Herram = document.getElementsByName('Herramienta');
+            var contador = 0;
+            for (var i = 0, length = Herram.length; i < length; i++) {
+                if (Herram[i].checked) {
+
+                    if (Herram[i].value = "net") {
+                        if ($(tec1)[0].checked) contador++;
+                        if ($(tec2)[0].checked) contador++;
+                        if ($(tec3)[0].checked) contador++;
+                        if ($(tec4)[0].checked) contador++;
+                        if ($(tec5)[0].checked) contador++;
+                    } else {
+                        if ($(tec6)[0].checked) contador++;
+                        if ($(tec7)[0].checked) contador++;
+                        if ($(tec8)[0].checked) contador++;
+                        if ($(tec9)[0].checked) contador++;
+                        if ($(tec10)[0].checked) contador++;
+                    }
+                    break;
+                }
+            }
+
+            if (contador > 0) {
+
+                if (contador == 2 || contador == 4)
+                    Par = 1;
+
+                var data = { EsPar: Par };
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:62721/Home/ResultadoWS",
+                    content: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: data,
+                    success: function (response) {
+
+                        var objUsuarios = JSON.parse(response);
+                        var jsonFinal = "[";
+
+                        for (var i = 0; i < objUsuarios.length; i++) {
+                            if (Par == 1) {
+                                if ((i + 1) % 2 == 0) {
+                                    jsonFinal += JSON.stringify(objUsuarios[i]);
+                                    if (i != objUsuarios.length - 1)
+                                        jsonFinal += ',';
+                                }
+                            }
+                            else
+                                if ((i + 1) % 2 != 0) {
+                                    jsonFinal += JSON.stringify(objUsuarios[i]);
+                                    if (i != objUsuarios.length - 2)
+                                        jsonFinal += ',';
+                                }
+                        }
+                        jsonFinal += ']';
+
+                        $(CaracteristicasCandidato).hide();
+
+                        objUsuarios = JSON.parse(jsonFinal);
+
+                        var htmlCandidatos = "<table style='width:100%;'>";
+                        for (var i = 0; i < objUsuarios.length; i++) {
+                            htmlCandidatos += '<tr><td><table style="border-style: solid;width:100%;"><tr><td style="width:50% "><table><tr><td>'
+                            htmlCandidatos += '<input type="checkbox" id="u' + objUsuarios[i].id + '" name="chkCandidatos" value="' + objUsuarios[i].id + '">'
+                            htmlCandidatos += '</td></tr><tr><td>'
+                            htmlCandidatos += '<label for="u' + objUsuarios[i].id + '"> Nombres: '
+                                + objUsuarios[i].name + ', Email: ' + objUsuarios[i].email + ', Dirección: '
+                                + JSON.stringify(objUsuarios[i].address).replaceAll('{', '').replaceAll('}', '').replaceAll('"', '') + '</label>'
+                            htmlCandidatos += '</td></tr></table></td><td><table><tr><td>'
+                            htmlCandidatos += '<label for="fl' + objUsuarios[i].id
+                                + '">Fecha : </label><input type="text" id="f' + objUsuarios[i].id
+                                + '" name="f' + objUsuarios[i].id + '" value="2020/01/01">'
+                            htmlCandidatos += '</td></tr><tr><td>'
+                            htmlCandidatos += '<label for="hl' + objUsuarios[i].id
+                                + '">Hora : </label><input type="text" id="h' + objUsuarios[i].id
+                                + '" name="h' + objUsuarios[i].id + '" value="00:00">'
+                            htmlCandidatos += '</td></tr><tr><td>'
+
+                            htmlCandidatos += '<label for="tl' + objUsuarios[i].id
+                                + '">Tipo Cita : </label>'
+
+                            htmlCandidatos += "<select id='t"+ objUsuarios[i].id +"' name='t" + objUsuarios[i].id + "'>";
+                            htmlCandidatos += decodeURIComponent(escape(window.atob('@ViewBag.htmlListaTipoCita')));
+                            htmlCandidatos += "</select>";
+
+                            htmlCandidatos += '</td></tr></table></td></tr></table></td></tr>'
+                        }
+                        htmlCandidatos += '</table>'
+                        //for (var i = 0; i < objUsuarios.length; i++) {
+                        //    htmlCandidatos += '<label for="fl' + objUsuarios[i].id
+                        //        + '">Fecha : </label><input type="text" id="f' + objUsuarios[i].id
+                        //        + '" name="f' + objUsuarios[i].id + '"><br>'
+                        //        + '<label for="hl' + objUsuarios[i].id
+                        //        + '">Hora : </label><input type="text" id="h' + objUsuarios[i].id
+                        //        + '" name="h' + objUsuarios[i].id + '"><br>'
+                        //        + '<label for="tl' + objUsuarios[i].id
+                        //        + '">Tipo Cita : </label><input type="text" id="t' + objUsuarios[i].id
+                        //        + '" name="t' + objUsuarios[i].id + '"><br>'
+                        //}
+                        //+ '</td></tr></table>';
+
+                        $(Candidatos).html(htmlCandidatos);
+                        $(divAreaCandidatos).show();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(d.Error);
+                    }
+                });
+            }
+        });
+    });
+
+    function MostrarNet() {
+        $(AreaNet).show();
+        $(AreaJava).hide();
+    }
+
+    function MostrarJava() {
+        $(AreaNet).hide();
+        $(AreaJava).show();
+    }
+
+
+
+
+/**/</script>
+<div id="CaracteristicasCandidato">
+    <table>
+        <tr>
+            <td>
+                <input type="radio" id="net" name="Herramienta" value="net" onchange="MostrarNet();">
+                <label for="net">Microsoft .Net</label>
+                <div id="AreaNet">
+                    <input type="checkbox" id="tec1" name="tec1" value="1">
+                    <label for="tec1">Asp.Net</label><br>
+                    <input type="checkbox" id="tec2" name="tec2" value="2">
+                    <label for="tec2">MVVM</label><br>
+                    <input type="checkbox" id="tec3" name="tec3" value="3">
+                    <label for="tec3">Ado.Net</label><br>
+                    <input type="checkbox" id="tec4" name="tec4" value="4">
+                    <label for="tec4">
+                        Entity
+                        FrameWork
+                    </label><br>
+                    <input type="checkbox" id="tec5" name="tec5" value="5">
+                    <label for="tec5">LinQ</label><br>
+                </div>
+            </td>
+            <td>
+                <input type="radio" id="java" name="Herramienta" value="java" onchange="MostrarJava();">
+                <label for="java">Oracle Java</label>
+                <div id="AreaJava">
+                    <input type="checkbox" id="tec6" name="tec6" value="6">
+                    <label for="tec6">Java Server Pages</label><br>
+                    <input type="checkbox" id="tec7" name="tec7" value="7">
+                    <label for="tec7">Java Server Faces</label><br>
+                    <input type="checkbox" id="tec8" name="tec8" value="8">
+                    <label for="tec8">Enterprise Java Beans</label><br>
+                    <input type="checkbox" id="tec9" name="tec9" value="9">
+                    <label for="tec9">Java Persistence Api</label><br>
+                    <input type="checkbox" id="tec10" name="tec10" value="10">
+                    <label for="tec10">Java Messaging Services</label><br>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <input id="botonConsulta" type="submit" value="Consultar Candidatos" AutoPostBack="false" />
+
+</div>
+<div id="divAreaCandidatos">
+    <div id="Candidatos">
+
+    </div>
+    <br /><br />
+    <input id="botonGuardar" type="submit" value="Agendar Citas" AutoPostBack="false" />
+</div>
+
+@*}*@
+

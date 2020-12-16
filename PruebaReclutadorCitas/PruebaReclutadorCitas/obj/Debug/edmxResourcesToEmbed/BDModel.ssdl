@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ReclutadorCitasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cita">
+    <Key>
+      <PropertyRef Name="IdCita" />
+    </Key>
+    <Property Name="IdCita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTipoCita" Type="int" />
+    <Property Name="IdUser" Type="int" />
+    <Property Name="IdReclutador" Type="int" />
+    <Property Name="Fecha" Type="smalldatetime" />
+    <Property Name="Hora" Type="smalldatetime" />
+    <Property Name="IdUsuarioCreacion" Type="int" />
+    <Property Name="FechaCreacion" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="Herramientas">
+    <Key>
+      <PropertyRef Name="IdHerramienta" />
+    </Key>
+    <Property Name="IdHerramienta" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreHerramienta" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tecnologias">
+    <Key>
+      <PropertyRef Name="IdTecnologia" />
+    </Key>
+    <Property Name="IdTecnologia" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdHerramienta" Type="smallint" />
+    <Property Name="NombreTecnologia" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TipoCita">
+    <Key>
+      <PropertyRef Name="IdTipoCita" />
+    </Key>
+    <Property Name="IdTipoCita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreTipo" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" />
+    <Property Name="Nick" Type="varbinary" MaxLength="15" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="FechaCreacion" Type="smalldatetime" />
+    <Property Name="IdUsuarioCreacion" Type="int" />
+  </EntityType>
+  <Association Name="FK_Cita_TipoCita">
+    <End Role="TipoCita" Type="Self.TipoCita" Multiplicity="0..1" />
+    <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCita">
+        <PropertyRef Name="IdTipoCita" />
+      </Principal>
+      <Dependent Role="Cita">
+        <PropertyRef Name="IdTipoCita" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+    <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Cita">
+        <PropertyRef Name="IdReclutador" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Usuarios1">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+    <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Cita">
+        <PropertyRef Name="IdUsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tecnologias_Herramientas">
+    <End Role="Herramientas" Type="Self.Herramientas" Multiplicity="0..1" />
+    <End Role="Tecnologias" Type="Self.Tecnologias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Herramientas">
+        <PropertyRef Name="IdHerramienta" />
+      </Principal>
+      <Dependent Role="Tecnologias">
+        <PropertyRef Name="IdHerramienta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+    <End Role="Usuarios1" Type="Self.Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Usuarios1">
+        <PropertyRef Name="IdUsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ReclutadorCitasModelStoreContainer">
+    <EntitySet Name="Cita" EntityType="Self.Cita" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Herramientas" EntityType="Self.Herramientas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tecnologias" EntityType="Self.Tecnologias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoCita" EntityType="Self.TipoCita" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Cita_TipoCita" Association="Self.FK_Cita_TipoCita">
+      <End Role="TipoCita" EntitySet="TipoCita" />
+      <End Role="Cita" EntitySet="Cita" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Usuarios" Association="Self.FK_Cita_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Cita" EntitySet="Cita" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Usuarios1" Association="Self.FK_Cita_Usuarios1">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Cita" EntitySet="Cita" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tecnologias_Herramientas" Association="Self.FK_Tecnologias_Herramientas">
+      <End Role="Herramientas" EntitySet="Herramientas" />
+      <End Role="Tecnologias" EntitySet="Tecnologias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Usuarios" Association="Self.FK_Usuarios_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Usuarios1" EntitySet="Usuarios" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

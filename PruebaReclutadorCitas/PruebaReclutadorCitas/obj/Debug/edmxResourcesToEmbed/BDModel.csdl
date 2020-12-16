@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ReclutadorCitasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cita">
+    <Key>
+      <PropertyRef Name="IdCita" />
+    </Key>
+    <Property Name="IdCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdTipoCita" Type="Int32" />
+    <Property Name="IdUser" Type="Int32" />
+    <Property Name="IdReclutador" Type="Int32" />
+    <Property Name="Fecha" Type="DateTime" Precision="0" />
+    <Property Name="Hora" Type="DateTime" Precision="0" />
+    <Property Name="IdUsuarioCreacion" Type="Int32" />
+    <Property Name="FechaCreacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="TipoCita" Relationship="Self.FK_Cita_TipoCita" FromRole="Cita" ToRole="TipoCita" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Cita_Usuarios" FromRole="Cita" ToRole="Usuarios" />
+    <NavigationProperty Name="Usuario1" Relationship="Self.FK_Cita_Usuarios1" FromRole="Cita" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="Herramienta">
+    <Key>
+      <PropertyRef Name="IdHerramienta" />
+    </Key>
+    <Property Name="IdHerramienta" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreHerramienta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Tecnologias" Relationship="Self.FK_Tecnologias_Herramientas" FromRole="Herramientas" ToRole="Tecnologias" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tecnologia">
+    <Key>
+      <PropertyRef Name="IdTecnologia" />
+    </Key>
+    <Property Name="IdTecnologia" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdHerramienta" Type="Int16" />
+    <Property Name="NombreTecnologia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Herramienta" Relationship="Self.FK_Tecnologias_Herramientas" FromRole="Tecnologias" ToRole="Herramientas" />
+  </EntityType>
+  <EntityType Name="TipoCita">
+    <Key>
+      <PropertyRef Name="IdTipoCita" />
+    </Key>
+    <Property Name="IdTipoCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreTipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Citas" Relationship="Self.FK_Cita_TipoCita" FromRole="TipoCita" ToRole="Cita" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nick" Type="Binary" MaxLength="15" FixedLength="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FechaCreacion" Type="DateTime" Precision="0" />
+    <Property Name="IdUsuarioCreacion" Type="Int32" />
+    <NavigationProperty Name="Citas" Relationship="Self.FK_Cita_Usuarios" FromRole="Usuarios" ToRole="Cita" />
+    <NavigationProperty Name="Citas1" Relationship="Self.FK_Cita_Usuarios1" FromRole="Usuarios" ToRole="Cita" />
+    <NavigationProperty Name="Usuarios1" Relationship="Self.FK_Usuarios_Usuarios" FromRole="Usuarios" ToRole="Usuarios1" />
+    <NavigationProperty Name="Usuario1" Relationship="Self.FK_Usuarios_Usuarios" FromRole="Usuarios1" ToRole="Usuarios" />
+  </EntityType>
+  <Association Name="FK_Cita_TipoCita">
+    <End Role="TipoCita" Type="Self.TipoCita" Multiplicity="0..1" />
+    <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCita">
+        <PropertyRef Name="IdTipoCita" />
+      </Principal>
+      <Dependent Role="Cita">
+        <PropertyRef Name="IdTipoCita" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+    <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Cita">
+        <PropertyRef Name="IdReclutador" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Usuarios1">
+    <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+    <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Cita">
+        <PropertyRef Name="IdUsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tecnologias_Herramientas">
+    <End Role="Herramientas" Type="Self.Herramienta" Multiplicity="0..1" />
+    <End Role="Tecnologias" Type="Self.Tecnologia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Herramientas">
+        <PropertyRef Name="IdHerramienta" />
+      </Principal>
+      <Dependent Role="Tecnologias">
+        <PropertyRef Name="IdHerramienta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+    <End Role="Usuarios1" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Usuarios1">
+        <PropertyRef Name="IdUsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ReclutadorCitasEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Citas" EntityType="Self.Cita" />
+    <EntitySet Name="Herramientas" EntityType="Self.Herramienta" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Tecnologias" EntityType="Self.Tecnologia" />
+    <EntitySet Name="TipoCitas" EntityType="Self.TipoCita" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK_Cita_TipoCita" Association="Self.FK_Cita_TipoCita">
+      <End Role="TipoCita" EntitySet="TipoCitas" />
+      <End Role="Cita" EntitySet="Citas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Usuarios" Association="Self.FK_Cita_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Cita" EntitySet="Citas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Usuarios1" Association="Self.FK_Cita_Usuarios1">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Cita" EntitySet="Citas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tecnologias_Herramientas" Association="Self.FK_Tecnologias_Herramientas">
+      <End Role="Herramientas" EntitySet="Herramientas" />
+      <End Role="Tecnologias" EntitySet="Tecnologias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Usuarios" Association="Self.FK_Usuarios_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Usuarios1" EntitySet="Usuarios" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
